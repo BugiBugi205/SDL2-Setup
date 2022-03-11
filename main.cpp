@@ -12,14 +12,14 @@ FILE *log_file;
 int main(int argc, char** argv){
     log_file = fopen("log.txt","wt");
 
-    //wlacza wszystko co mozliwe(dostep do myszki itp) i sprawdza czy dziala
+    //turns on everything possible(e.g mouse access) and looks for errors
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0)
     {
         cout << "SDL_Init Error" << SDL_GetError() << endl;
         return 0;
     }
 
-    //tworzenie okienka
+    //window creator
     SDL_Window *window = SDL_CreateWindow(  "Wonsz", 
                                             SDL_WINDOWPOS_CENTERED,
                                             SDL_WINDOWPOS_CENTERED,
@@ -29,34 +29,34 @@ int main(int argc, char** argv){
                                             //|SDL_WINDOW_FULLSCREEN_DESKTOP
                                             );
 
-    //sprawdza czy wskaznik jest pusty
+    //checks is pointer empty
     if(window == nullptr)
     {
         fprintf(log_file,"SDL_CreateWindow() Error: %s\n", SDL_GetError());
         return 0;
     }
 
-    //tworzy obiekt potrzebny do rysowania rzeczy na ekranie
+    //creates object necessary for drawing things on screen
     SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
-    //sprawdza czy wskaznik jest pusty
+    //checks is pointer empty
     if(renderer == nullptr)
     {
         fprintf(log_file,"SDL_CreateRenderer() Error: %s\n", SDL_GetError());
         return 0;
     }
 
-    //tworzenie bitmapy
+    //bitmap creator
     SDL_Surface *bmp = SDL_LoadBMP("img/grass.bmp");
 
-    //sprawdza czy wskaznik jest pusty
+    //checks is pointer empty
     if(bmp == nullptr)
     {
         fprintf(log_file,"SDL_LoadBMP() Error: %s\n", SDL_GetError());
         return 0;
     } 
 
-    //stworzenie tekstury z bitmapy ktora mozna wyswietlic na ekranie
+    //creates texture from bitmap that can be displayed on screen
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, bmp);
     SDL_FreeSurface(bmp);
     if(texture == nullptr)
@@ -65,18 +65,18 @@ int main(int argc, char** argv){
         return 0;
     }
 
-    SDL_RenderClear(renderer);  //czysci bufor renderera
-    SDL_RenderCopy(renderer, texture, NULL, NULL);  //kopiuje teksture na renderer
-    SDL_RenderPresent(renderer);    //wyswietla bufor po ktorym sie rysowalo
+    SDL_RenderClear(renderer);  //clears render buffer
+    SDL_RenderCopy(renderer, texture, NULL, NULL);  //copy texture to renderer
+    SDL_RenderPresent(renderer);    //displays buffer what we were drawing on
 
     SDL_Delay(3000);
 
-    //zwalnianie pamieci
+    //memory cleaning
     SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 
     fclose(log_file);    
-    SDL_Quit();     //przestaje uzywac sdl
+    SDL_Quit();     //stops using sdl
     return 0;
 }
