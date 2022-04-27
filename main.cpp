@@ -7,10 +7,8 @@ using namespace std;
 #define SCREEN_WIDTH    1280 
 #define SCREEN_HEIGHT   720
 
-FILE *log_file;
-
 int main(int argc, char** argv){
-    log_file = fopen("log.txt","wt");
+    FILE *log_file = fopen("log.txt","wt");
 
     //turns on everything possible(e.g mouse access) and looks for errors
     if(SDL_Init(SDL_INIT_EVERYTHING) != 0)
@@ -20,7 +18,7 @@ int main(int argc, char** argv){
     }
 
     //window creator
-    SDL_Window *window = SDL_CreateWindow(  "Wonsz", 
+    SDL_Window *window = SDL_CreateWindow(  "SDL setup", 
                                             SDL_WINDOWPOS_CENTERED,
                                             SDL_WINDOWPOS_CENTERED,
                                             SCREEN_WIDTH, SCREEN_HEIGHT,
@@ -69,14 +67,14 @@ int main(int argc, char** argv){
     SDL_RenderCopy(renderer, texture, NULL, NULL);  //copy texture to renderer
     SDL_RenderPresent(renderer);    //displays buffer what we were drawing on
 
-    SDL_Delay(3000);
+    SDL_Delay(5000);
 
-    //memory cleaning
+    //memory release
     SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 
-    fclose(log_file);    
+    fclose(log_file);
     SDL_Quit();     //stops using sdl
     return 0;
 }
