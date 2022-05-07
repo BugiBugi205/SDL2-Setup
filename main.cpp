@@ -44,33 +44,15 @@ int main(int argc, char** argv){
         return 0;
     }
 
-    //bitmap creator
-    SDL_Surface *bmp = SDL_LoadBMP("img/grass.bmp");
-
-    //checks is pointer empty
-    if(bmp == nullptr)
-    {
-        fprintf(log_file,"SDL_LoadBMP() Error: %s\n", SDL_GetError());
-        return 0;
-    } 
-
-    //creates texture from bitmap that can be displayed on screen
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, bmp);
-    SDL_FreeSurface(bmp);
-    if(texture == nullptr)
-    {
-        fprintf(log_file,"SDL_CreateTextureFromSurface() Error: %s\n", SDL_GetError());
-        return 0;
-    }
+    SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 
     SDL_RenderClear(renderer);  //clears render buffer
-    SDL_RenderCopy(renderer, texture, NULL, NULL);  //copy texture to renderer
+
     SDL_RenderPresent(renderer);    //displays buffer what we were drawing on
 
     SDL_Delay(5000);
 
     //memory release
-    SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
 

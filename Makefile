@@ -1,2 +1,6 @@
+CC=g++				#compiler
+SRC=main.cpp		#source
+OUT=Output/out.exe	#output
+
 all:
-	g++ -Isrc/Include -Lsrc/lib -o main main.cpp -lmingw32 -lSDL2main -lSDL2 -static-libgcc -static-libstdc++
+	$(CC) -Isrc/Include -Lsrc/lib -o $(OUT) $(SRC) -lmingw32 -lSDL2main -lSDL2 -mwindows -static-libgcc -static-libstdc++ -Wl,-Bstatic -lstdc++ -lpthread -Wl,-Bdynamic
